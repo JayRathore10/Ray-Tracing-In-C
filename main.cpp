@@ -3,9 +3,10 @@
 
 #define WIDTH 1200
 #define HEIGHT 600
-#define CIRCLE_RADIUS 60 
+#define CIRCLE_RADIUS 40 
 #define SHADOW_CIRCLE_RADIUS 140
 #define RAY_NUMBERS 100
+#define RAY_THICKNESS 3
 
 #define COLOR_WHITE 0xffffff
 
@@ -52,29 +53,70 @@ void generate_rays(Circle circle , Ray rays[RAY_NUMBERS]){
   }
 }
 
+void FillRays(SDL_Surface* surface , Ray rays[RAY_NUMBERS] , Uint32 color , Circle circle){
+  double radius_sqaured = pow(circle.radius , 2);
+
+  for(int i =0 ; i< RAY_NUMBERS ; i++){
+    Ray ray = rays[i];
+
+    /**
+     * We fill the windows with the ray if the ray hit the object ot it touch the end of the screen then we stop
+     */
+
+    bool end_of_screen = false;
+
+    double x_draw = ray.x_start;
+    double y_draw = ray.y_start;
+
+    while(!end_of_screen){
+      x_draw += cos(ray.angle);
+      y_draw += sin(ray.angle);
+
+      SDL_Rect ray_point = (SDL_Rect){(int)x_draw , (int)y_draw , RAY_THICKNESS , RAY_THICKNESS};
+
+      SDL_FillRect(surface  , &ray_point ,  color);
+
+      if(x_draw < 0 || x_draw > WIDTH){
+        end_of_screen = true;
+      }
+
+      if(y_draw < 0 || y_draw > HEIGHT ){
+        end_of_screen = true;
+      }
+
+      double distance_squared = pow(x_draw - circle.x  , 2) + pow(y_draw - circle.y , 2);
+
+      if(distance_squared < radius_sqaured){
+        break;
+      }
+    }
+  }
+}
+
 int main(int argc  , char** args){
   SDL_Window* window = SDL_CreateWindow("Ray Tracing", SDL_WINDOWPOS_CENTERED , SDL_WINDOWPOS_CENTERED , WIDTH , HEIGHT, 0);
 
   SDL_Surface* surface = SDL_GetWindowSurface(window);
   
-  Circle circle = {100 , 100 , CIRCLE_RADIUS};
-  Circle shadow_circle = {600 , 300, SHADOW_CIRCLE_RADIUS};
+  Circle circle = {200, 200 , CIRCLE_RADIUS};
+  Circle shadow_circle = {550 , 300, SHADOW_CIRCLE_RADIUS};
   
   Ray rays[RAY_NUMBERS];
   generate_rays(circle , rays);
   
   SDL_Event event ;
-  int running = 1;
+  bool running = true;
   
   while(running){
     while(SDL_PollEvent(&event)){
       if(event.type == SDL_QUIT){
-        running = 0;
+        running = false ;
         SDL_Delay(10);
       }
       
       FillCircle(surface  , circle , COLOR_WHITE);
       FillCircle(surface , shadow_circle , COLOR_WHITE);
+      FillRays(surface , rays , COLOR_WHITE ,shadow_circle);
       SDL_UpdateWindowSurface(window);
     }
   }

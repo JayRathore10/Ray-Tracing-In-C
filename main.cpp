@@ -107,6 +107,8 @@ int main(int argc  , char** args){
   Ray rays[RAY_NUMBERS];
   generate_rays(circle , rays);
   
+  int obstacle_speed_y = 2;
+
   SDL_Event event ;
   bool running = true;
   
@@ -123,10 +125,21 @@ int main(int argc  , char** args){
         generate_rays(circle , rays);
       }
 
-      FillCircle(surface  , circle , COLOR_WHITE);
       SDL_FillRect(surface ,&earse_rect , COLOR_BLACK);
-      FillCircle(surface , shadow_circle , COLOR_WHITE);
       FillRays(surface , rays , COLOR_WHITE ,shadow_circle);
+      FillCircle(surface  , circle , COLOR_WHITE);
+      FillCircle(surface , shadow_circle , COLOR_WHITE);
+
+      shadow_circle.y += obstacle_speed_y;
+
+      if(shadow_circle.y - shadow_circle.radius < 0){
+        obstacle_speed_y = -obstacle_speed_y;
+      }
+
+      if(shadow_circle.y + shadow_circle.radius > HEIGHT){
+        obstacle_speed_y = -obstacle_speed_y;
+      }
+
       SDL_UpdateWindowSurface(window);
     }
   }

@@ -3,6 +3,9 @@
 
 #define WIDTH 1200
 #define HEIGHT 600
+#define CIRCLE_RADIUS 60 
+#define SHADOW_CIRCLE_RADIUS 140
+
 #define COLOR_WHITE 0xffffff
 
 typedef struct Circle{
@@ -45,8 +48,8 @@ int main(int argc  , char** args){
 
   SDL_Surface* surface = SDL_GetWindowSurface(window);
   
-  Circle circle = {100 , 100 , 60};
-  Circle shadow_circle = {600 , 300, 140};
+  Circle circle = {100 , 100 , CIRCLE_RADIUS};
+  Circle shadow_circle = {600 , 300, SHADOW_CIRCLE_RADIUS};
 
   SDL_Event event ;
   int running = 1;

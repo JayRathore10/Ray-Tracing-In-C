@@ -14,6 +14,16 @@ The primary goal of this repository is educational: to understand how ray tracin
 
 ---
 
+## Screenshots
+
+### Render Output 1
+![Screenshot 1](assets/ss1.png)
+
+### Render Output 2
+![Screenshot 2](assets/ss2.png)
+
+---
+
 ## Features
 
 - Ray–sphere intersection
@@ -89,6 +99,10 @@ g++ main.cpp $(sdl2-config --cflags --libs) -o main
 
 ```
 Ray-Tracing-In-Cpp/
+│
+├── assets/
+│   ├── ss1.png
+│   └── ss2.png
 │
 ├── src/
 │   ├── Include/      # SDL2 header files

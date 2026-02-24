@@ -5,11 +5,12 @@
 #define HEIGHT 600
 #define CIRCLE_RADIUS 40 
 #define SHADOW_CIRCLE_RADIUS 140
-#define RAY_NUMBERS 100
-#define RAY_THICKNESS 3
+#define RAY_NUMBERS 500
+#define RAY_THICKNESS 1
 
 #define COLOR_WHITE 0xffffff
 #define COLOR_BLACK 0x000000
+#define COLOR_YELLOW 0xFFFF00
 
 typedef struct Circle{
   double x ;
@@ -126,7 +127,7 @@ int main(int argc  , char** args){
       }
 
       SDL_FillRect(surface ,&earse_rect , COLOR_BLACK);
-      FillRays(surface , rays , COLOR_WHITE ,shadow_circle);
+      FillRays(surface , rays , COLOR_YELLOW ,shadow_circle);
       FillCircle(surface  , circle , COLOR_WHITE);
       FillCircle(surface , shadow_circle , COLOR_WHITE);
 

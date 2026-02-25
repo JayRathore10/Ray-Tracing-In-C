@@ -33,7 +33,7 @@ The primary goal of this repository is educational: to understand how ray tracin
 
 ## Features
 
-- Ray–sphere intersection
+- Ray-sphere intersection
 - Basic diffuse lighting model
 - Real-time rendering using SDL2
 - Structured and readable C++ implementation
@@ -110,6 +110,8 @@ Ray-Tracing-In-Cpp/
 ├── assets/
 │   ├── ss1.png
 │   └── ss2.png
+|   └── demo.mp4
+|   └── demo.gif
 │
 ├── src/
 │   ├── Include/      # SDL2 header files

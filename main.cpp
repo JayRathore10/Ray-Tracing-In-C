@@ -24,76 +24,11 @@ typedef struct Ray{
   double angle ;
 }Ray;
 
-void FillCircle(SDL_Surface* surface , Circle circle , Uint32 color){
+void FillCircle(SDL_Surface* , Circle , Uint32);
 
-  double radius_squared = pow(circle.radius , 2);
+void generate_rays(Circle  , Ray[]);
 
-  /**
-   * We try to make a  Circle inside the rectangle 
-   * where the rectangle start from the (x - r) and goes to (x + r) in x-axis and in y axis it start from the (y - r) and goes to (y + r) 
-   * and then generate the pixel of the width and height 1 X 1 to fill the whole area 
-   */
-
-  for(double x = circle.x - circle.radius ; x <= circle.x + circle.radius ; x++){
-    for(double y = circle.y - circle.radius ; y <= circle.y + circle.radius ; y++){ 
-      double distance_squared = pow(x - circle.x , 2) + pow(y - circle.y  , 2);
-      
-      if(distance_squared < radius_squared){
-        SDL_Rect pixel = (SDL_Rect) {int(x), int(y), 1 , 1};
-        SDL_FillRect(surface , &pixel  , color);
-      }
-    }
-  }
-
-}
-
-void generate_rays(Circle circle , Ray rays[RAY_NUMBERS]){
-  for(int i = 0 ; i < RAY_NUMBERS ; i++){
-    double angle = (double)i / RAY_NUMBERS * 2 * M_PI;
-    Ray ray = {circle.x , circle.y  , angle};
-    rays[i] = ray;
-  }
-}
-
-void FillRays(SDL_Surface* surface , Ray rays[RAY_NUMBERS] , Uint32 color , Circle circle){
-  double radius_sqaured = pow(circle.radius , 2);
-
-  for(int i =0 ; i< RAY_NUMBERS ; i++){
-    Ray ray = rays[i];
-
-    /**
-     * We fill the windows with the ray if the ray hit the object ot it touch the end of the screen then we stop
-     */
-
-    bool end_of_screen = false;
-
-    double x_draw = ray.x_start;
-    double y_draw = ray.y_start;
-
-    while(!end_of_screen){
-      x_draw += cos(ray.angle);
-      y_draw += sin(ray.angle);
-
-      SDL_Rect ray_point = (SDL_Rect){(int)x_draw , (int)y_draw , RAY_THICKNESS , RAY_THICKNESS};
-
-      SDL_FillRect(surface  , &ray_point ,  color);
-
-      if(x_draw < 0 || x_draw > WIDTH){
-        end_of_screen = true;
-      }
-
-      if(y_draw < 0 || y_draw > HEIGHT ){
-        end_of_screen = true;
-      }
-
-      double distance_squared = pow(x_draw - circle.x  , 2) + pow(y_draw - circle.y , 2);
-
-      if(distance_squared < radius_sqaured){
-        break;
-      }
-    }
-  }
-}
+void FillRays(SDL_Surface* , Ray[] ,  Uint32, Circle);
 
 int main(int argc  , char** args){
   SDL_Window* window = SDL_CreateWindow("Ray Tracing", SDL_WINDOWPOS_CENTERED , SDL_WINDOWPOS_CENTERED , WIDTH , HEIGHT , 0);
@@ -160,4 +95,75 @@ int main(int argc  , char** args){
   SDL_Quit();
 
   return 0;
+}
+
+void FillCircle(SDL_Surface* surface , Circle circle , Uint32 color){
+
+  double radius_squared = pow(circle.radius , 2);
+
+  /**
+   * We try to make a  Circle inside the rectangle 
+   * where the rectangle start from the (x - r) and goes to (x + r) in x-axis and in y axis it start from the (y - r) and goes to (y + r) 
+   * and then generate the pixel of the width and height 1 X 1 to fill the whole area 
+   */
+
+  for(double x = circle.x - circle.radius ; x <= circle.x + circle.radius ; x++){
+    for(double y = circle.y - circle.radius ; y <= circle.y + circle.radius ; y++){ 
+      double distance_squared = pow(x - circle.x , 2) + pow(y - circle.y  , 2);
+      
+      if(distance_squared < radius_squared){
+        SDL_Rect pixel = (SDL_Rect) {int(x), int(y), 1 , 1};
+        SDL_FillRect(surface , &pixel  , color);
+      }
+    }
+  }
+
+}
+
+void generate_rays(Circle circle , Ray rays[RAY_NUMBERS]){
+  for(int i = 0 ; i < RAY_NUMBERS ; i++){
+    double angle = (double)i / RAY_NUMBERS * 2 * M_PI;
+    Ray ray = {circle.x , circle.y  , angle}; 
+    rays[i] = ray;
+  }
+}
+
+void FillRays(SDL_Surface* surface , Ray rays[RAY_NUMBERS] , Uint32 color , Circle circle){
+  double radius_sqaured = pow(circle.radius , 2);
+
+  for(int i =0 ; i< RAY_NUMBERS ; i++){
+    Ray ray = rays[i];
+
+    /**
+     * We fill the windows with the ray if the ray hit the object ot it touch the end of the screen then we stop
+     */
+
+    bool end_of_screen = false;
+
+    double x_draw = ray.x_start;
+    double y_draw = ray.y_start;
+
+    while(!end_of_screen){
+      x_draw += cos(ray.angle);
+      y_draw += sin(ray.angle);
+
+      SDL_Rect ray_point = (SDL_Rect){(int)x_draw , (int)y_draw , RAY_THICKNESS , RAY_THICKNESS};
+
+      SDL_FillRect(surface  , &ray_point ,  color);
+
+      if(x_draw < 0 || x_draw > WIDTH){
+        end_of_screen = true;
+      }
+
+      if(y_draw < 0 || y_draw > HEIGHT ){
+        end_of_screen = true;
+      }
+
+      double distance_squared = pow(x_draw - circle.x  , 2) + pow(y_draw - circle.y , 2);
+
+      if(distance_squared < radius_sqaured){
+        break;
+      }
+    }
+  }
 }

@@ -12,17 +12,8 @@
 #define COLOR_BLACK 0x000000
 #define COLOR_YELLOW 0xFFFF00
 
-typedef struct Circle{
-  double x ;
-  double y ;
-  double radius;
-} Circle;
-
-typedef struct Ray{
-  double x_start ;
-  double y_start ;
-  double angle ;
-}Ray;
+struct Circle;
+struct Ray;
 
 void FillCircle(SDL_Surface* , Circle , Uint32);
 
@@ -96,6 +87,18 @@ int main(int argc  , char** args){
 
   return 0;
 }
+
+typedef struct Circle{
+  double x ;
+  double y ;
+  double radius;
+} Circle;
+
+typedef struct Ray{
+  double x_start ;
+  double y_start ;
+  double angle ;
+}Ray;
 
 void FillCircle(SDL_Surface* surface , Circle circle , Uint32 color){
 

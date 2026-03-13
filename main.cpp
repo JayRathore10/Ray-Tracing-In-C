@@ -121,6 +121,7 @@ void FillCircle(SDL_Surface* surface , Circle circle , Uint32 color){
 }
 
 void generate_rays(Circle circle , Ray rays[RAY_NUMBERS]){
+  // 2 * pi * i / total no. of rays to find the angle where ray form  
   for(int i = 0 ; i < RAY_NUMBERS ; i++){
     double angle = (double)i / RAY_NUMBERS * 2 * M_PI;
     Ray ray = {circle.x , circle.y  , angle}; 

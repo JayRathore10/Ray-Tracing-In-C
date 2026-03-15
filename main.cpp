@@ -12,6 +12,9 @@
 #define COLOR_BLACK 0x000000
 #define COLOR_YELLOW 0xFFFF00
 
+#define OBSTACLE_SPEED_X 3
+#define OBSTACLE_SPEED_Y 2
+
 typedef struct Circle{
   double x ;
   double y ;
@@ -40,17 +43,16 @@ SDL_Surface* surface = SDL_GetWindowSurface(window);
 
 int main(int argc  , char** args){  
   Circle circle = {200, 200 , CIRCLE_RADIUS};
-  Circle shadow_circle = {550 , 300, SHADOW_CIRCLE_RADIUS};
+  Circle shadow_circle = {550 , 300,    SHADOW_CIRCLE_RADIUS};
+
+
 
   SDL_Rect earse_rect = (SDL_Rect){0 , 0 , WIDTH , HEIGHT};
   
   Ray rays[RAY_NUMBERS];
   generate_rays(circle , rays);
-  
-  int obstacle_speed_y = 2;
-  int obstacle_speed_x = 3;
-  
-  loop(circle , shadow_circle , rays , earse_rect ,obstacle_speed_x ,obstacle_speed_y);
+
+  loop(circle , shadow_circle , rays , earse_rect , OBSTACLE_SPEED_X , OBSTACLE_SPEED_X);
 
   destroy_window();
 

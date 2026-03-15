@@ -24,7 +24,6 @@ typedef struct Ray{
   double angle ;
 }Ray;
 
-
 void FillCircle(SDL_Surface* , Circle , Uint32);
 
 void generate_rays(Circle  , Ray[]);
@@ -32,6 +31,8 @@ void generate_rays(Circle  , Ray[]);
 void FillRays(SDL_Surface* , Ray[] ,  Uint32, Circle);
 
 void loop(Circle& circle , Circle& shadow_circle , Ray rays[RAY_NUMBERS] ,  SDL_Rect earse_rect , int obstacle_speed_x , int obstacle_speed_y);
+
+void destroy_window();
 
 SDL_Window* window = SDL_CreateWindow("Ray Tracing", SDL_WINDOWPOS_CENTERED , SDL_WINDOWPOS_CENTERED , WIDTH , HEIGHT , 0);
 
@@ -51,8 +52,7 @@ int main(int argc  , char** args){
   
   loop(circle , shadow_circle , rays , earse_rect ,obstacle_speed_x ,obstacle_speed_y);
 
-  SDL_DestroyWindow(window);
-  SDL_Quit();
+  destroy_window();
 
   return 0;
 }
@@ -100,6 +100,11 @@ void loop(Circle& circle , Circle& shadow_circle , Ray rays[RAY_NUMBERS] ,  SDL_
     FillCircle(surface , shadow_circle , COLOR_WHITE);
     SDL_UpdateWindowSurface(window);
   }
+}
+
+void destroy_window(){
+  SDL_DestroyWindow(window);
+  SDL_Quit();
 }
 
 void FillCircle(SDL_Surface* surface , Circle circle , Uint32 color){
